@@ -29,10 +29,13 @@ def query(text_input):
     with torch.no_grad():
         text_features = model.get_text_features(text_tokens).cpu().numpy()
 
-    _, indices = index.search(text_features, 1)
-    img_idx = indices[0][0]
+    lst_img = []
+    _, indices = index.search(text_features, 3)
+    for i in range(3):
+        img_idx = indices[0][i]
 
-    img_path = image_paths[img_idx]
-    img = Image.open(img_path)
+        img_path = image_paths[img_idx]
+        img = Image.open(img_path)
+        lst_img.append(img)
     
-    return img
+    return lst_img
